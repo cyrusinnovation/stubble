@@ -8,7 +8,6 @@ import org.jboss.netty.handler.codec.http._
 import com.twitter.finagle.Service
 import org.jboss.netty.buffer.ChannelBuffers._
 import org.jboss.netty.util.CharsetUtil.UTF_8
-import org.codehaus.jackson.map.ObjectMapper
 import net.liftweb.json.Serialization
 
 object SimpleResponse {
