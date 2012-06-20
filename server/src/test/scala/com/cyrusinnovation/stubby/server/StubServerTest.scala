@@ -58,8 +58,17 @@ class StubServerTest {
     implicit val formats = StubServer.SerializationFormat
 
     server.addInteraction(Interaction(List(PathCondition("/")), Response(HttpResponseStatus.OK, Some("hello!"))))
-    val json = Serialization.write(server.interactions)
-    println(json)
-    assertEquals(server.interactions, Serialization.read[List[Interaction]](json))
+    val json = Serialization.write(server.interactionContexts.top)
+    assertEquals(server.interactionContexts.top, Serialization.read[List[Interaction]](json))
+  }
+
+  @Test
+  def popInteractionsCleansNewInteractionsFromStack() {
+    server.pushInteractions()
+    assertEquals("Initial state is no interactions", HttpResponseStatus.NOT_FOUND, client(SimpleRequest(HttpMethod.GET, "/")).get().getStatus)
+    server.addInteraction(Interaction(List(PathCondition("/")), Response(HttpResponseStatus.OK, Some("Hello!"))))
+    assertEquals("Interaction is live", HttpResponseStatus.OK, client(SimpleRequest(HttpMethod.GET, "/")).get().getStatus)
+    server.popInteractions()
+    assertEquals("Back to initial state", HttpResponseStatus.NOT_FOUND, client(SimpleRequest(HttpMethod.GET, "/")).get().getStatus)
   }
 }

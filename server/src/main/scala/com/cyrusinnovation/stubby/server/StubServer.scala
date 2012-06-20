@@ -11,6 +11,7 @@ import com.twitter.finagle.http.Http
 import java.util.concurrent.TimeUnit
 import org.jboss.netty.buffer.ChannelBuffers._
 import org.jboss.netty.util.CharsetUtil.UTF_8
+import collection.immutable.Stack
 
 
 sealed trait RequestCondition {
@@ -45,13 +46,21 @@ object StubServer {
 }
 
 class StubServer(port: Int) {
-  var interactions = List[Interaction]()
+  var interactionContexts = Stack[List[Interaction]](List())
   def addInteraction(interaction: Interaction) {
-    interactions = interaction :: interactions
+    interactionContexts = interactionContexts.tail.push(interaction :: interactionContexts.top)
+  }
+
+  def popInteractions() {
+    interactionContexts = interactionContexts.pop
+  }
+
+  def pushInteractions() {
+    interactionContexts = interactionContexts.push(List())
   }
 
   val service: Service[HttpRequest,HttpResponse] = new Service[HttpRequest,HttpResponse] {
-    def apply(request: HttpRequest) = Future(interactions.flatMap(_.matchRequest(request)).headOption.getOrElse(new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.NOT_FOUND)))
+    def apply(request: HttpRequest) = Future(interactionContexts.top.flatMap(_.matchRequest(request)).headOption.getOrElse(new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.NOT_FOUND)))
   }
   val address: SocketAddress = new InetSocketAddress(port)
   var server: Server = _
