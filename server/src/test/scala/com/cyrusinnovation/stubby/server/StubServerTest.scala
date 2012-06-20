@@ -8,6 +8,8 @@ import org.jboss.netty.handler.codec.http._
 import com.twitter.finagle.Service
 import org.jboss.netty.buffer.ChannelBuffers._
 import org.jboss.netty.util.CharsetUtil.UTF_8
+import org.codehaus.jackson.map.ObjectMapper
+import net.liftweb.json.Serialization
 
 object SimpleResponse {
   def apply(status: HttpResponseStatus, body: Option[String]) = {
@@ -55,8 +57,18 @@ class StubServerTest {
   @Test
   def simpleInteractionResponseBodyMatches() {
     val body = "it works!"
-    server.addInteraction(Interaction(List(PathCondition("/")), SimpleResponse(HttpResponseStatus.OK, Some(body))))
+    server.addInteraction(Interaction(List(PathCondition("/")), Response(HttpResponseStatus.OK, Some(body))))
     val response = client(SimpleRequest(HttpMethod.GET, "/")).get()
     assertEquals(body, response.getContent.toString(UTF_8))
+  }
+
+  @Test
+  def serializesInteractions() {
+    implicit val formats = StubServer.SerializationFormat
+
+    server.addInteraction(Interaction(List(PathCondition("/")), Response(HttpResponseStatus.OK, Some("hello!"))))
+    val json = Serialization.write(server.interactions)
+    println(json)
+    assertEquals(server.interactions, Serialization.read[List[Interaction]](json))
   }
 }
