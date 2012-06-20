@@ -10,14 +10,6 @@ import org.jboss.netty.buffer.ChannelBuffers._
 import org.jboss.netty.util.CharsetUtil.UTF_8
 import net.liftweb.json.Serialization
 
-object SimpleResponse {
-  def apply(status: HttpResponseStatus, body: Option[String]) = {
-    val response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, status)
-    body.map(body => response.setContent(copiedBuffer(body, UTF_8)))
-    response
-  }
-}
-
 object SimpleRequest {
   def apply(method: HttpMethod, path: String, body: Option[String] = None) = {
     val request = new DefaultHttpRequest(HttpVersion.HTTP_1_1, method, path)
