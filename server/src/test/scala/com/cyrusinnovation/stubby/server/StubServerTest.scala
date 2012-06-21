@@ -79,6 +79,18 @@ class StubServerTest {
   }
 
   @Test
+  def interactionsStackIsAdditive() {
+    val lowerBody = "Step 1"
+    val upperBody = "Step 2"
+    server.pushInteractions()
+    server.addInteraction(Interaction(List(PathCondition("/level1")), Response(HttpResponseStatus.OK, Some(lowerBody))))
+    server.pushInteractions()
+    server.addInteraction(Interaction(List(PathCondition("/level2")), Response(HttpResponseStatus.OK, Some(upperBody))))
+    assertEquals(lowerBody, client(SimpleRequest(HttpMethod.GET, "/level1")).get().getContent.toString(UTF_8))
+    assertEquals(upperBody, client(SimpleRequest(HttpMethod.GET, "/level2")).get().getContent.toString(UTF_8))
+  }
+
+  @Test
   def matchesOnHeaders() {
     server.addInteraction(Interaction(List(HeaderCondition("X-Foo-Header" -> "bars")), Response(HttpResponseStatus.OK, Some("it works!"))))
     assertEquals("it works!", client(SimpleRequest(HttpMethod.GET, "/foo", headers = List(("X-Foo-Header" -> "bars")))).get().getContent.toString(UTF_8))

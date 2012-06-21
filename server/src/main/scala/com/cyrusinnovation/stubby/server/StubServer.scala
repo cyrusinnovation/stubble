@@ -33,7 +33,7 @@ case class CookieCondition(cookie: (String, String)) extends RequestCondition {
     case (name, value) => {
       val decoder = new CookieDecoder()
       // DefaultCookie.equals is broken https://github.com/netty/netty/issues/378
-      val cookies = decoder.decode(request.getHeader("Cookie")).asScala.map(c => (c.getName,c.getValue))
+      val cookies = decoder.decode(request.getHeader("Cookie")).asScala.map(c => (c.getName, c.getValue))
       cookies.contains((name, value))
     }
   }
@@ -83,7 +83,14 @@ class StubServer(port: Int) {
   }
 
   val service: Service[HttpRequest, HttpResponse] = new Service[HttpRequest, HttpResponse] {
-    def apply(request: HttpRequest) = Future(interactionContexts.top.flatMap(_.matchRequest(request)).headOption.getOrElse(new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.NOT_FOUND)))
+    def apply(request: HttpRequest) = {
+      val responses = for {
+        context <- interactionContexts
+        interaction <- context
+        response <- interaction.matchRequest(request)
+      } yield response
+      Future(responses.headOption.getOrElse(new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.NOT_FOUND)))
+    }
   }
   val address: SocketAddress = new InetSocketAddress(port)
   var server: Server = _
