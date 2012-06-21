@@ -1,4 +1,4 @@
-package com.cyrusinnovation.stubby.server
+package com.cyrusinnovation.stubble.server
 
 import org.junit.Assert._
 import org.junit.{After, Before, Test}

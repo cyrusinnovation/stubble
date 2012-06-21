@@ -1,4 +1,4 @@
-package com.cyrusinnovation.stubby.server
+package com.cyrusinnovation.stubble.server
 
 import net.liftweb.json.DefaultFormats
 import net.liftweb.json.ShortTypeHints
