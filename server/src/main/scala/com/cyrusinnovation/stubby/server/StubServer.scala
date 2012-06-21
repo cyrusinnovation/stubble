@@ -57,7 +57,7 @@ case class Interaction(conditions: List[RequestCondition], response: Response) {
 }
 
 object RequestCondition {
-  final val Types = List(classOf[PathCondition])
+  final val Types = List[Class[_]](classOf[PathCondition], classOf[CookieCondition], classOf[HeaderCondition])
 }
 
 object StubServer {

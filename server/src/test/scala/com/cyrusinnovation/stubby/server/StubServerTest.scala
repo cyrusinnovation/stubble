@@ -63,7 +63,7 @@ class StubServerTest {
   def serializesInteractions() {
     implicit val formats = StubServer.SerializationFormat
 
-    server.addInteraction(Interaction(List(PathCondition("/")), Response(HttpResponseStatus.OK, Some("hello!"))))
+    server.addInteraction(Interaction(List(PathCondition("/"), HeaderCondition("X-Foo" -> "bar"), HeaderCondition("flavor" -> "chocolate")), Response(HttpResponseStatus.OK, Some("hello!"))))
     val json = Serialization.write(server.interactionContexts.top)
     assertEquals(server.interactionContexts.top, Serialization.read[List[Interaction]](json))
   }
