@@ -21,6 +21,10 @@ case class PathCondition(path: String) extends RequestCondition {
   def matches(request: HttpRequest) = path == URI.create(request.getUri).getPath
 }
 
+case class HeaderCondition(header: (String,String)) extends RequestCondition {
+  def matches(request: HttpRequest) = header match {case (name,value) => Option(request.getHeader(name)).map(_ == value).getOrElse(false)}
+}
+
 case class Response(status: HttpResponseStatus = HttpResponseStatus.OK, content: Option[String], headers: Map[String,String] = Map()) {
   def toHttpResponse = {
     val response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, status)

@@ -11,9 +11,12 @@ import org.jboss.netty.util.CharsetUtil.UTF_8
 import net.liftweb.json.Serialization
 
 object SimpleRequest {
-  def apply(method: HttpMethod, path: String, body: Option[String] = None) = {
+  def apply(method: HttpMethod, path: String, body: Option[String] = None, headers: List[(String, String)] = List()) = {
     val request = new DefaultHttpRequest(HttpVersion.HTTP_1_1, method, path)
     body.map(body => request.setContent(copiedBuffer(body, UTF_8)))
+    headers.map {
+      case (name, value) => request.addHeader(name, value)
+    }
     request
   }
 }
@@ -70,5 +73,17 @@ class StubServerTest {
     assertEquals("Interaction is live", HttpResponseStatus.OK, client(SimpleRequest(HttpMethod.GET, "/")).get().getStatus)
     server.popInteractions()
     assertEquals("Back to initial state", HttpResponseStatus.NOT_FOUND, client(SimpleRequest(HttpMethod.GET, "/")).get().getStatus)
+  }
+
+  @Test
+  def matchesOnHeaders() {
+    server.addInteraction(Interaction(List(HeaderCondition("X-Foo-Header" -> "bars")), Response(HttpResponseStatus.OK, Some("it works!"))))
+    assertEquals("it works!", client(SimpleRequest(HttpMethod.GET, "/foo", headers = List(("X-Foo-Header" -> "bars")))).get().getContent.toString(UTF_8))
+  }
+
+  @Test
+  def doesNotMatchWrongHeaderValue() {
+    server.addInteraction(Interaction(List(HeaderCondition("X-Foo-Header" -> "bars")), Response(HttpResponseStatus.OK, Some("it works!"))))
+    assertEquals(HttpResponseStatus.NOT_FOUND, client(SimpleRequest(HttpMethod.GET, "/foo", headers = List(("X-Foo-Header" -> "quxes")))).get().getStatus)
   }
 }
