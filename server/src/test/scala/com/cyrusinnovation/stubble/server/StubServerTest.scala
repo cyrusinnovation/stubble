@@ -10,20 +10,6 @@ import org.jboss.netty.buffer.ChannelBuffers._
 import org.jboss.netty.util.CharsetUtil.UTF_8
 import net.liftweb.json.Serialization
 
-object SimpleRequest {
-  def apply(method: HttpMethod, path: String, body: Option[String] = None, headers: List[(String, String)] = List(), cookies: List[(String,String)] = List()) = {
-    val request = new DefaultHttpRequest(HttpVersion.HTTP_1_1, method, path)
-    body.map(body => request.setContent(copiedBuffer(body, UTF_8)))
-    headers.map {
-      case (name, value) => request.addHeader(name, value)
-    }
-    val encoder = new CookieEncoder(false)
-    cookies.map {case (name, value) => encoder.addCookie(name, value)}
-    if (cookies.nonEmpty) {request.addHeader("Cookie", encoder.encode())}
-    request
-  }
-}
-
 class StubServerTest {
   var server: StubServer = _
   var client: Service[HttpRequest, HttpResponse] = _
@@ -112,5 +98,13 @@ class StubServerTest {
   def doesNotMatchDifferentCookieValue() {
     server.addInteraction(Interaction(List(CookieCondition("type" -> "chocolate chip")), Response(HttpResponseStatus.OK, Some("gimme cookie!"))))
     assertEquals(HttpResponseStatus.NOT_FOUND, client(SimpleRequest(HttpMethod.GET, "/allthecookies", cookies = List("type" -> "chocolate chip oatmeal"))).get().getStatus)
+  }
+
+  @Test
+  def listsCurrentInteractionsInReverseAddOrder() {
+    val interactions = List(Interaction(List(CookieCondition("type" -> "chocolate chip")), Response(HttpResponseStatus.OK, Some("gimme cookie!"))),
+                            Interaction(List(PathCondition("/")), Response(HttpResponseStatus.OK, Some("Hello!"))))
+    interactions.foreach(server.addInteraction(_))
+    assertEquals(interactions.reverse, server.listInteractions())
   }
 }

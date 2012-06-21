@@ -1,64 +1,15 @@
 package com.cyrusinnovation.stubble.server
 
-import net.liftweb.json.DefaultFormats
-import net.liftweb.json.ShortTypeHints
-import com.twitter.finagle.Service
+import net.liftweb.json.{Serialization, DefaultFormats, ShortTypeHints}
+import com.twitter.finagle.{Filter, Service}
 import org.jboss.netty.handler.codec.http._
 import com.twitter.util.{Duration, Future}
 import java.net.{URI, SocketAddress, InetSocketAddress}
 import com.twitter.finagle.builder.{ServerBuilder, Server}
 import com.twitter.finagle.http.Http
 import java.util.concurrent.TimeUnit
-import org.jboss.netty.buffer.ChannelBuffers._
-import org.jboss.netty.util.CharsetUtil.UTF_8
 import collection.immutable.Stack
-import scala.collection.JavaConverters._
-
-sealed trait RequestCondition {
-  def matches(request: HttpRequest): Boolean
-}
-
-case class PathCondition(path: String) extends RequestCondition {
-  def matches(request: HttpRequest) = path == URI.create(request.getUri).getPath
-}
-
-case class HeaderCondition(header: (String, String)) extends RequestCondition {
-  def matches(request: HttpRequest) = header match {
-    case (name, value) => Option(request.getHeader(name)).map(_ == value).getOrElse(false)
-  }
-}
-
-case class CookieCondition(cookie: (String, String)) extends RequestCondition {
-  def matches(request: HttpRequest) = cookie match {
-    case (name, value) => {
-      val decoder = new CookieDecoder()
-      // DefaultCookie.equals is broken https://github.com/netty/netty/issues/378
-      val cookies = decoder.decode(request.getHeader("Cookie")).asScala.map(c => (c.getName, c.getValue))
-      cookies.contains((name, value))
-    }
-  }
-}
-
-case class Response(status: HttpResponseStatus = HttpResponseStatus.OK, content: Option[String], headers: Map[String, String] = Map()) {
-  def toHttpResponse = {
-    val response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, status)
-    content.map(content => response.setContent(copiedBuffer(content, UTF_8)))
-    headers.foreach {
-      case (key, value) => response.addHeader(key, value)
-    }
-    response
-  }
-}
-
-case class Interaction(conditions: List[RequestCondition], response: Response) {
-  def matchRequest(request: HttpRequest) = {
-    if (conditions.forall(_.matches(request))) Some(response.toHttpResponse) else None
-  }
-}
-
-object RequestCondition {
-  final val Types = List[Class[_]](classOf[PathCondition], classOf[CookieCondition], classOf[HeaderCondition])
-}
+import org.jboss.netty.util.CharsetUtil.UTF_8
 
 object StubServer {
   final val SerializationFormat = new DefaultFormats {
@@ -67,9 +18,32 @@ object StubServer {
   }
 }
 
-class StubServer(port: Int) {
+
+class StubServer(port: Int) extends StubServerControl {
   var interactionContexts = Stack[List[Interaction]](List())
-  val service: Service[HttpRequest, HttpResponse] = new Service[HttpRequest, HttpResponse] {
+  val handleControlRequests = new ControlRequestFilter
+  val serviceInteractions = new InteractionsService
+  val address: SocketAddress = new InetSocketAddress(port)
+  var server: Server = _
+  implicit val formats = StubServer.SerializationFormat
+
+  class ControlRequestFilter extends Filter[HttpRequest, HttpResponse, HttpRequest, HttpResponse] {
+    def apply(request: HttpRequest, service: Service[HttpRequest, HttpResponse]) = {
+      if (request.getHeader("X-StubServer-Control") != null) Future(handleInternal(request))
+      else service(request)
+    }
+
+    def handleInternal(request: HttpRequest): HttpResponse = {
+      val SuccessResponse = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK)
+      val body = request.getContent.toString(UTF_8)
+      URI.create(request.getUri).getPath match {
+        case "/add-interaction" => addInteraction(Serialization.read[Interaction](body)); SuccessResponse
+      }
+      new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.NOT_FOUND)
+    }
+  }
+
+  class InteractionsService extends Service[HttpRequest, HttpResponse] {
     def apply(request: HttpRequest) = {
       val responses = for {
         context <- interactionContexts
@@ -79,11 +53,10 @@ class StubServer(port: Int) {
       Future(responses.headOption.getOrElse(new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.NOT_FOUND)))
     }
   }
-  val address: SocketAddress = new InetSocketAddress(port)
-  var server: Server = _
+
 
   def start() {
-    server = ServerBuilder().codec(Http()).bindTo(address).name("StubServer").build(service)
+    server = ServerBuilder().codec(Http()).bindTo(address).name("StubServer").build(handleControlRequests andThen serviceInteractions)
   }
 
   def stop() {
@@ -100,5 +73,13 @@ class StubServer(port: Int) {
 
   def pushInteractions() {
     interactionContexts = interactionContexts.push(List())
+  }
+
+  def listInteractions(): List[Interaction] = {
+    val interactions = for {
+      context <- interactionContexts
+      interaction <- context
+    } yield interaction
+    interactions.toList
   }
 }
