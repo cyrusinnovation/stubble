@@ -69,19 +69,6 @@ object StubServer {
 
 class StubServer(port: Int) {
   var interactionContexts = Stack[List[Interaction]](List())
-
-  def addInteraction(interaction: Interaction) {
-    interactionContexts = interactionContexts.tail.push(interaction :: interactionContexts.top)
-  }
-
-  def popInteractions() {
-    interactionContexts = interactionContexts.pop
-  }
-
-  def pushInteractions() {
-    interactionContexts = interactionContexts.push(List())
-  }
-
   val service: Service[HttpRequest, HttpResponse] = new Service[HttpRequest, HttpResponse] {
     def apply(request: HttpRequest) = {
       val responses = for {
@@ -101,5 +88,17 @@ class StubServer(port: Int) {
 
   def stop() {
     server.close(Duration(10, TimeUnit.SECONDS))
+  }
+
+  def addInteraction(interaction: Interaction) {
+    interactionContexts = interactionContexts.tail.push(interaction :: interactionContexts.top)
+  }
+
+  def popInteractions() {
+    interactionContexts = interactionContexts.pop
+  }
+
+  def pushInteractions() {
+    interactionContexts = interactionContexts.push(List())
   }
 }
