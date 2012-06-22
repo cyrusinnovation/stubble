@@ -12,17 +12,23 @@ class StubServerClient(port: Int) extends StubServerControl {
   .hostConnectionLimit(1)
   .build()
   implicit val formats = StubServer.SerializationFormat
+  final val ControlHeader = "X-StubServer-Control" -> "true"
 
 
   def addInteraction(interaction: Interaction) {
     val body = Serialization.write[Interaction](interaction)
-    val headers = List("X-StubServer-Control" -> "true", "Content-Length" -> body.getBytes.length.toString)
+    val headers = List(ControlHeader, "Content-Length" -> body.getBytes.length.toString)
     client(SimpleRequest(HttpMethod.POST, "/add-interaction", body = Some(body), headers = headers)).get()
   }
 
-  def popInteractions() {}
+  def popInteractions() {
+    client(SimpleRequest(HttpMethod.POST, "/pop-interactions", headers = List(ControlHeader))).get()
+  }
 
-  def pushInteractions() {}
+  def pushInteractions() {
+    client(SimpleRequest(HttpMethod.POST, "/push-interactions", headers = List(ControlHeader))).get()
+  }
+
   def release() {
     client.release()
   }

@@ -16,6 +16,8 @@ object StubServer {
     override val typeHints = ShortTypeHints(classOf[DefaultHttpResponse] :: RequestCondition.Types)
     override val typeHintFieldName = "type"
   }
+  final val ControlHeaderName = "X-StubServer-Control"
+
 }
 
 
@@ -29,7 +31,7 @@ class StubServer(port: Int) extends StubServerControl {
 
   class ControlRequestFilter extends Filter[HttpRequest, HttpResponse, HttpRequest, HttpResponse] {
     def apply(request: HttpRequest, service: Service[HttpRequest, HttpResponse]) = {
-      if (request.getHeader("X-StubServer-Control") != null) Future(handleInternal(request))
+      if (request.getHeader(StubServer.ControlHeaderName) != null) Future(handleInternal(request))
       else service(request)
     }
 
@@ -38,8 +40,10 @@ class StubServer(port: Int) extends StubServerControl {
       val body = request.getContent.toString(UTF_8)
       URI.create(request.getUri).getPath match {
         case "/add-interaction" => addInteraction(Serialization.read[Interaction](body)); SuccessResponse
+        case "/push-interactions" => pushInteractions(); SuccessResponse
+        case "/pop-interactions" => popInteractions(); SuccessResponse
+        case _ => new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.NOT_FOUND)
       }
-      new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.NOT_FOUND)
     }
   }
 
@@ -68,7 +72,7 @@ class StubServer(port: Int) extends StubServerControl {
   }
 
   def popInteractions() {
-    interactionContexts = interactionContexts.pop
+    if (interactionContexts.size > 1) interactionContexts = interactionContexts.pop
   }
 
   def pushInteractions() {

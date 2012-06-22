@@ -30,4 +30,15 @@ class StubServerClientTest {
     interactions.foreach(client.addInteraction(_))
     assertEquals(interactions.reverse, server.listInteractions())
   }
+
+  @Test
+  def pushesAndPopsInteractionsOnServer() {
+    client.pushInteractions()
+    assertEquals("Initial state is no interactions", List(), server.listInteractions())
+    val interaction = Interaction(List(PathCondition("/")), Response(HttpResponseStatus.OK, Some("Hello!")))
+    client.addInteraction(interaction)
+    assertEquals("Interaction is live", List(interaction), server.listInteractions())
+    client.popInteractions()
+    assertEquals("Back to initial state", List(), server.listInteractions())
+  }
 }

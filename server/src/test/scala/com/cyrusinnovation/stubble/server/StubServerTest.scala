@@ -107,4 +107,18 @@ class StubServerTest {
     interactions.foreach(server.addInteraction(_))
     assertEquals(interactions.reverse, server.listInteractions())
   }
+
+  @Test
+  def missingRequestStatusIsNotFound() {
+    assertEquals(HttpResponseStatus.NOT_FOUND, client(SimpleRequest(HttpMethod.GET, "/irrelevant", headers = List(StubServer.ControlHeaderName -> ""))).get().getStatus)
+  }
+
+  @Test
+  def doesNotPopBeyondFirstStackFrame() {
+    server.addInteraction(Interaction(List(PathCondition("/")), Response(HttpResponseStatus.OK, Some("foo"))))
+    server.popInteractions()
+    server.popInteractions()
+    server.popInteractions()
+    assertEquals("foo", client(SimpleRequest(HttpMethod.GET, "/")).get().getContent.toString(UTF_8))
+  }
 }
