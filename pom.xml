@@ -11,6 +11,30 @@
   <modules>
     <module>server</module>
   </modules>
+  <name>Stubble</name>
+  <url>https://www.github.com/ostewart/stubble</url>
+  <organization>
+    <name>Cyrus Innovation</name>
+    <url>http://www.cyrusinnovation.com/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License (LGPL), Version 2.1</name>
+      <url>http://www.fsf.org/licensing/licenses/lgpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>ostewart</id>
+      <name>Oliver Stewart</name>
+      <email>ostewart@cyrusinnovation.com</email>
+      <organization>Cyrus Innovation</organization>
+      <organizationUrl>http://www.cyrusinnovation.com/</organizationUrl>
+      <timezone>America/New_York</timezone>
+    </developer>
+  </developers>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,10 +49,6 @@
     <repository>
       <id>twttr</id>
       <url>http://maven.twttr.com/</url>
-    </repository>
-    <repository>
-      <id>repo.codahale.com</id>
-      <url>http://repo.codahale.com</url>
     </repository>
   </repositories>
   <pluginRepositories>
@@ -132,11 +152,6 @@
         <groupId>com.twitter</groupId>
         <artifactId>finagle-http</artifactId>
         <version>5.1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>net.databinder</groupId>
-        <artifactId>dispatch-http_${scala.version}</artifactId>
-        <version>0.8.8</version>
       </dependency>
       <dependency>
         <groupId>net.liftweb</groupId>
