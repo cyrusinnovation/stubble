@@ -95,6 +95,12 @@ class StubServerTest {
   }
 
   @Test
+  def cookieConditionDoesNotMatchRequestWithNoCookieHeader() {
+    server.addInteraction(Interaction(List(CookieCondition("type" -> "chocolate chip")), Response(HttpResponseStatus.OK, Some("gimme cookie!"))))
+    assertEquals(HttpResponseStatus.NOT_FOUND, client(SimpleRequest(HttpMethod.GET, "/nocookies")).get().getStatus)
+  }
+
+  @Test
   def doesNotMatchDifferentCookieValue() {
     server.addInteraction(Interaction(List(CookieCondition("type" -> "chocolate chip")), Response(HttpResponseStatus.OK, Some("gimme cookie!"))))
     assertEquals(HttpResponseStatus.NOT_FOUND, client(SimpleRequest(HttpMethod.GET, "/allthecookies", cookies = List("type" -> "chocolate chip oatmeal"))).get().getStatus)

@@ -23,11 +23,16 @@ case class HeaderCondition(header: (String, String)) extends RequestCondition {
 case class CookieCondition(cookie: (String, String)) extends RequestCondition {
   def matches(request: HttpRequest) = cookie match {
     case (name, value) => {
-      val decoder = new CookieDecoder()
+      val headerOption = Option(request.getHeader("Cookie"))
       // DefaultCookie.equals is broken https://github.com/netty/netty/issues/378
-      val cookies = decoder.decode(request.getHeader("Cookie")).asScala.map(c => (c.getName, c.getValue))
-      cookies.contains((name, value))
+      val cookieTuplesOption = headerOption.map(header => cookieTuplesFromHeader(header))
+      cookieTuplesOption.map(_.contains((name, value))).getOrElse(false)
     }
+  }
+
+  private def cookieTuplesFromHeader(header: String): scala.collection.mutable.Set[(String,String)] = {
+    val decoder = new CookieDecoder()
+    decoder.decode(header).asScala.map(c => (c.getName, c.getValue))
   }
 }
 

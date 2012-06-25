@@ -49,3 +49,41 @@ Adding interactions remotely is much the same as on the server directly, but you
 ```scala
 val client = new StubbleClient(8082)
 ```
+
+### The Interaction Stack
+
+Often during integration testing, you may want to start Stubble, start your application, then run a bunch of tests against the application.  You probably want each test to be as self-contained as possible, so Stubble allows you to setup an interaction "stack frame" for each test.  By calling ```pushInteractions()``` before each test and ```popInteractions()``` after each test, you can isolate tests from each other, throwing away any state you've setup after each test.  A complete typical test might look like this (assuming the StubServer is started by the build, and here the ExampleApplication is small enough to be started for each test):
+
+```scala
+import org.junit.{After, Before, Test}
+import org.jboss.netty.handler.codec.http.HttpResponseStatus
+import org.junit.Assert._
+import scala.Some
+
+class ExampleTest {
+  var client: StubbleClient = new StubbleClient(8082)
+  val app = new ExampleApplication
+
+  @Before
+  def setUp() {
+    client.pushInteractions()
+  }
+
+  @After
+  def tearDown() {
+    client.popInteractions()
+  }
+
+  @Test
+  def addsInteractionsToServer() {
+    val interactions = List(Interaction(List(CookieCondition("type" -> "chocolate chip")), Response(HttpResponseStatus.OK, Some("gimme cookie!"))),
+                            Interaction(List(PathCondition("/")), Response(HttpResponseStatus.OK, Some("Hello!"))))
+    interactions.foreach(client.addInteraction(_))
+
+    val appResponse = app.somethingThatNeedsABackendServer
+    assertEquals("Something wonderful happened", appResponse)
+  }
+}
+```
+
+The interaction stack is sort of analogous to what JUnit does by initializing your test class before each test and throwing it away after, except that often you can't throw away your back end each time, because your application may be making requests of it outside your test flow.  Stubble supports setting up the base, background interactions that might be happening outside the test flow by adding them to the first stack frame, which it will never pop off the stack.  In other words, if you have interactions that need to be around for the duration of your server's lifetime, set those up before pushing interactions before the first time, and they'll stay around until the ```StubServer``` is shut down.
