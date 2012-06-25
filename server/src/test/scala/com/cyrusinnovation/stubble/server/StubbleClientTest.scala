@@ -5,16 +5,16 @@ import org.jboss.netty.handler.codec.http.HttpResponseStatus
 import org.junit.Assert._
 import scala.Some
 
-class StubServerClientTest {
+class StubbleClientTest {
   var server: StubServer = _
-  var client: StubServerClient = _
+  var client: StubbleClient = _
   final val TestPort = 8082
 
   @Before
   def setUp() {
     server = new StubServer(TestPort)
     server.start()
-    client = new StubServerClient(TestPort)
+    client = new StubbleClient(TestPort)
   }
 
   @After

@@ -5,7 +5,7 @@ import java.net.InetSocketAddress
 import org.jboss.netty.handler.codec.http.HttpMethod
 import net.liftweb.json.Serialization
 
-class StubServerClient(port: Int) extends StubServerControl {
+class StubbleClient(port: Int) extends StubServerControl {
   val client = ClientBuilder()
   .codec(com.twitter.finagle.http.Http())
   .hosts(new InetSocketAddress(port))
