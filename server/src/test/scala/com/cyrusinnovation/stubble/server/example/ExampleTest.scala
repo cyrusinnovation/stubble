@@ -4,10 +4,6 @@ import com.cyrusinnovation.stubble.server._
 import org.junit._
 import org.jboss.netty.handler.codec.http.HttpResponseStatus
 import org.junit.Assert._
-import com.cyrusinnovation.stubble.server.Interaction
-import com.cyrusinnovation.stubble.server.CookieCondition
-import com.cyrusinnovation.stubble.server.Response
-import com.cyrusinnovation.stubble.server.PathCondition
 
 class ExampleApplication {
 

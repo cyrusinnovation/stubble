@@ -55,10 +55,10 @@ val client = new StubbleClient(8082)
 Often during integration testing, you may want to start Stubble, start your application, then run a bunch of tests against the application.  You probably want each test to be as self-contained as possible, so Stubble allows you to setup an interaction "stack frame" for each test.  By calling ```pushInteractions()``` before each test and ```popInteractions()``` after each test, you can isolate tests from each other, throwing away any state you've setup after each test.  A complete typical test might look like this (assuming the StubServer is started by the build, and here the ExampleApplication is small enough to be started for each test):
 
 ```scala
-import org.junit.{After, Before, Test}
+import com.cyrusinnovation.stubble.server._
+import org.junit._
 import org.jboss.netty.handler.codec.http.HttpResponseStatus
 import org.junit.Assert._
-import scala.Some
 
 class ExampleTest {
   var client: StubbleClient = new StubbleClient(8082)
