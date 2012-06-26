@@ -4,6 +4,7 @@ import com.twitter.finagle.builder.ClientBuilder
 import java.net.InetSocketAddress
 import org.jboss.netty.handler.codec.http.HttpMethod
 import net.liftweb.json.Serialization
+import com.twitter.finagle.ChannelClosedException
 
 class StubbleClient(port: Int) extends StubServerControl {
   val client = ClientBuilder()
@@ -27,6 +28,14 @@ class StubbleClient(port: Int) extends StubServerControl {
 
   def pushInteractions() {
     client(SimpleRequest(HttpMethod.POST, "/push-interactions", headers = List(ControlHeader))).get()
+  }
+
+  def stopServer() {
+    try {
+      client(SimpleRequest(HttpMethod.POST, "/shutdown", headers = List(ControlHeader))).get()
+    } catch {
+      case e: ChannelClosedException => //expected
+    }
   }
 
   def release() {

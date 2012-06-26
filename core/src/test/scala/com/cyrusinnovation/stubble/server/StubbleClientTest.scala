@@ -41,4 +41,9 @@ class StubbleClientTest {
     client.popInteractions()
     assertEquals("Back to initial state", List(), server.listInteractions())
   }
+
+  @Test
+  def stopsRunningServer() {
+    client.stopServer()
+  }
 }

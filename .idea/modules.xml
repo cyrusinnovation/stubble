@@ -3,7 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/integration-test/integration-test.iml" filepath="$PROJECT_DIR$/integration-test/integration-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/start-stubble-plugin/start-stubble-plugin.iml" filepath="$PROJECT_DIR$/start-stubble-plugin/start-stubble-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stop-stubble-plugin/stop-stubble-plugin.iml" filepath="$PROJECT_DIR$/stop-stubble-plugin/stop-stubble-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/stubble.iml" filepath="$PROJECT_DIR$/stubble.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test-server/test-server.iml" filepath="$PROJECT_DIR$/test-server/test-server.iml" />
     </modules>
   </component>
 </project>
