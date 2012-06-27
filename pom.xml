@@ -16,7 +16,7 @@
     <module>integration-test</module>
   </modules>
   <name>Stubble</name>
-  <url>https://www.github.com/ostewart/stubble</url>
+  <url>https://www.github.com/cyrusinnovation/stubble</url>
   <organization>
     <name>Cyrus Innovation</name>
     <url>http://www.cyrusinnovation.com/</url>
@@ -28,6 +28,10 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+  <scm>
+    <url>https://github.com/cyrusinnovation/stubble</url>
+    <connection>scm:git:git@github.com:cyrusinnovation/stubble.git</connection>
+  </scm>
 
   <developers>
     <developer>
