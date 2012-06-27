@@ -35,6 +35,7 @@
   <scm>
     <url>https://github.com/cyrusinnovation/stubble</url>
     <connection>scm:git:git@github.com:cyrusinnovation/stubble.git</connection>
+    <developerConnection>scm:git:git@github.com:cyrusinnovation/stubble.git</developerConnection>
   </scm>
 
   <developers>
