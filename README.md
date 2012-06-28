@@ -100,9 +100,11 @@ Stubble is designed to fit easily into your Maven build.  You can include the st
     </dependency>
 ```
 
-A common way of running integration tests with maven is to create a submodule to contain integration tests, that depends on your main project module(s) and starts/stops your server instance.  Typically, you may want the stub server to start before your server starts and stop after your server shuts down so that, for example, any interactions initiated at startup will succeed.
+A common way of running integration tests with maven is to create a submodule to contain integration tests, that depends on your main project module(s) and starts/stops your server instance.  You may want the stub server to start before your server starts and stop after your server shuts down so that, for example, any interactions initiated at startup will succeed.
+
 In order to start your server for integration testing, you might bind [Cargo](http://cargo.codehaus.org/Maven2+plugin)'s ```start``` goal to the ```pre-integration-test``` phase and its ```stop``` goal to the ```post-integration-test``` phase, using the Surefire plugin to run tests in the ```integration-test``` phase.  When binding a second plugin to the same phase (```pre-integration-test```, for example), however, Maven executes plugins in declaration order in the pom.  In order to start before Cargo and stop after Cargo, then, Stubble provides two plugins, one each for start and stop actions.  Therefore, use the ```start-stubble-plugin``` before Cargo in the ```pre-integration-test``` phase and the ```stop-stubble-plugin``` after Cargo in the ```post-integration-test``` phase.
-If you don't understand any of this and haven't tried to sequence actions within a single phase in Maven, be thankful and just copy and paste the below example into your integration-test pom, modifying Cargo for your own application:
+
+**If you don't understand any of this and haven't tried to sequence actions within a single phase in Maven, be thankful and just copy and paste the below example into your integration-test pom, modifying Cargo for your own application:**
 
 ```xml
   <properties>
