@@ -93,6 +93,13 @@
               <goal>testCompile</goal>
             </goals>
           </execution>
+          <execution>
+            <id>generate-docs</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>doc</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
       <plugin>
