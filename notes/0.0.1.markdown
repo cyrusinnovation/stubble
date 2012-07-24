@@ -1,0 +1,1 @@
+Initial release, supporting local and remote interaction management and Maven build integration.  Please get in touch via [GitHub](https://github.com/cyrusinnovation/stubble) with feedback, comments, or feature requests!
