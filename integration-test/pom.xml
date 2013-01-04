@@ -109,7 +109,7 @@
             <containerId>tomcat7x</containerId>
             <zipUrlInstaller>
               <url>
-                http://mirror.cc.columbia.edu/pub/software/apache/tomcat/tomcat-7/v7.0.27/bin/apache-tomcat-7.0.27.zip
+                http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.34/bin/apache-tomcat-7.0.34.zip
               </url>
               <downloadDir>${java.io.tmpdir}/cargoinstalls.${user.name}</downloadDir>
             </zipUrlInstaller>
