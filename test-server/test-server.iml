@@ -9,6 +9,9 @@
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
         </webroots>
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/src/main/scala" />
+        </sourceRoots>
       </configuration>
     </facet>
     <facet type="scala" name="Scala">

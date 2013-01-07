@@ -107,6 +107,14 @@ class StubServerTest {
   }
 
   @Test
+  def matchesRequestParameter() {
+    server.addInteraction(Interaction(List(RequestParamCondition("foo", Some("bar"))), Response(HttpResponseStatus.OK, Some("fufu"))))
+    assertEquals("Matches for name/value full match", "fufu", client(SimpleRequest(HttpMethod.GET, "/whatever?foo=bar")).get().getContent.toString(UTF_8))
+    assertEquals("Doesn't match differing value", HttpResponseStatus.NOT_FOUND, client(SimpleRequest(HttpMethod.GET, "/whatever?foo=qux")).get().getStatus)
+    assertEquals("Doesn't match missing parameter", HttpResponseStatus.NOT_FOUND, client(SimpleRequest(HttpMethod.GET, "/whatever")).get().getStatus)
+  }
+
+  @Test
   def listsCurrentInteractionsInReverseAddOrder() {
     val interactions = List(Interaction(List(CookieCondition("type" -> "chocolate chip")), Response(HttpResponseStatus.OK, Some("gimme cookie!"))),
                             Interaction(List(PathCondition("/")), Response(HttpResponseStatus.OK, Some("Hello!"))))

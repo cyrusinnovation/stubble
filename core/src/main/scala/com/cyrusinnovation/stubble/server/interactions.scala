@@ -36,6 +36,19 @@ case class CookieCondition(cookie: (String, String)) extends RequestCondition {
   }
 }
 
+case class RequestParamCondition(name: String, value: Option[String]) extends RequestCondition {
+  def matches(request: HttpRequest) = {
+    val decoder = new QueryStringDecoder(request.getUri)
+    val params = decoder.getParameters.asScala
+    val result = for {
+      foundValue <- params.get(name)
+      expectedValue <- value
+    } yield foundValue.contains(expectedValue)
+    result.getOrElse(false)
+  }
+}
+
+
 case class Response(status: HttpResponseStatus = HttpResponseStatus.OK, content: Option[String], headers: Map[String, String] = Map()) {
   def toHttpResponse = {
     val response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, status)
