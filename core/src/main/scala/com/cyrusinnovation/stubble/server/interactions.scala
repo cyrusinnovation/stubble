@@ -48,6 +48,9 @@ case class RequestParamCondition(name: String, value: Option[String]) extends Re
   }
 }
 
+case class CustomCondition(matcher: HttpRequest => Boolean) extends RequestCondition {
+  def matches(request: HttpRequest) = matcher(request)
+}
 
 case class Response(status: HttpResponseStatus = HttpResponseStatus.OK, content: Option[String], headers: Map[String, String] = Map()) {
   def toHttpResponse = {

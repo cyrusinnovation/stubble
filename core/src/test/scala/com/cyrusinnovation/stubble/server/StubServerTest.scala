@@ -115,6 +115,12 @@ class StubServerTest {
   }
 
   @Test
+  def matchesCustomCondition() {
+    server.addInteraction(Interaction(List(CustomCondition(_.getUri.contains("foo"))), Response(HttpResponseStatus.OK, Some("hoorah!"))))
+    assertEquals("hoorah!", client(SimpleRequest(HttpMethod.GET, "/whatever/blah/foo/blah?bar=qux")).get().getContent.toString(UTF_8))
+  }
+
+  @Test
   def listsCurrentInteractionsInReverseAddOrder() {
     val interactions = List(Interaction(List(CookieCondition("type" -> "chocolate chip")), Response(HttpResponseStatus.OK, Some("gimme cookie!"))),
                             Interaction(List(PathCondition("/")), Response(HttpResponseStatus.OK, Some("Hello!"))))
