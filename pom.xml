@@ -9,7 +9,7 @@
   <groupId>com.cyrusinnovation</groupId>
   <artifactId>stubble</artifactId>
   <packaging>pom</packaging>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.2</version>
   <modules>
     <module>core</module>
     <module>start-stubble-plugin</module>
@@ -34,7 +34,7 @@
     <url>https://github.com/cyrusinnovation/stubble</url>
     <connection>scm:git:git@github.com:cyrusinnovation/stubble.git</connection>
     <developerConnection>scm:git:git@github.com:cyrusinnovation/stubble.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>stubble-0.0.2</tag>
   </scm>
 
   <developers>
