@@ -30,6 +30,14 @@
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/integration-test/pom.xml" />
+        <option value="$PROJECT_DIR$/start-stubble-plugin/pom.xml" />
+        <option value="$PROJECT_DIR$/stop-stubble-plugin/pom.xml" />
+        <option value="$PROJECT_DIR$/test-server/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="ModuleEditorState">
     <option name="LAST_EDITED_MODULE_NAME" />
