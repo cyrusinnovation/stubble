@@ -10,17 +10,17 @@ object StubbleBuild extends Build {
     crossScalaVersions := Seq("2.9.2", "2.10.0"),
     resolvers ++= Seq("twttr" at "http://maven.twttr.com/"),
     parallelExecution in Test := false
-//    dependencyOverrides ++= Dependencies.core
+    //    dependencyOverrides ++= Dependencies.core
   )
   override lazy val settings = super.settings ++ buildSettings
 
   lazy val root = Project(id = "stubble",
                           base = file("."),
                           settings = Project.defaultSettings)
-//    .configs(IntegrationTest)
-//    .settings(libraryDependencies ++= Dependencies.allJunit)
-//    .settings(Defaults.itSettings: _*)
-  .aggregate (core)
+    //    .configs(IntegrationTest)
+    //    .settings(libraryDependencies ++= Dependencies.allJunit)
+    //    .settings(Defaults.itSettings: _*)
+    .aggregate(core)
   lazy val core = Project(id = "core",
                           base = file("core"),
                           settings = Project.defaultSettings ++ Seq(
@@ -29,19 +29,24 @@ object StubbleBuild extends Build {
     .configs(IntegrationTest)
     .settings(libraryDependencies ++= Dependencies.allJunit)
     .settings(Defaults.itSettings: _*)
-  .settings( startStubble <<= (fullClasspath in IntegrationTest, runner, compile in IntegrationTest) map {(cp, runner, _) => {
-    Run.run("com.cyrusinnovation.stubble.integrationtest.StartTestServers", cp.files, Seq(), ConsoleLogger())(runner)
-  }
-  }
-  )
-//  .settings(testOptions in IntegrationTest += Tests.Setup(loader: ClassLoader => {
-//  val clazz = loader.loadClass("com.cyrusinnovation.stubble.server.StubServer")
-//  val constructor = clazz.getConstructor(classOf[Int])
-//  val server: StubServer = constructor.newInstance(8082)
-//  server.start()
-//  }))
+    .settings(startStubble <<= (fullClasspath in IntegrationTest, runner, compile in IntegrationTest) map {
+    (cp, runner, _) => {
+      Run.run("com.cyrusinnovation.stubble.integrationtest.StartTestServers", cp.files, Seq(), ConsoleLogger())(runner)
+    }
+  })
+    .settings(stopStubble <<= (fullClasspath in IntegrationTest, runner, compile in IntegrationTest) map {
+    (cp, runner, _) => {
+      Run.run("com.cyrusinnovation.stubble.integrationtest.StopTestServers", cp.files, Seq(), ConsoleLogger())(runner)
+    }
+  })
+  //  .settings(testOptions in IntegrationTest += Tests.Setup(loader: ClassLoader => {
+  //  val clazz = loader.loadClass("com.cyrusinnovation.stubble.server.StubServer")
+  //  val constructor = clazz.getConstructor(classOf[Int])
+  //  val server: StubServer = constructor.newInstance(8082)
+  //  server.start()
+  //  }))
 
-//  lazy val specs = "org.scala-tools.testing" %% "specs" % "1.6.8" % "it,test"
+  //  lazy val specs = "org.scala-tools.testing" %% "specs" % "1.6.8" % "it,test"
   val startStubble = TaskKey[Unit]("start-stubble", "Starts an instance of the Stubble server")
   val stopStubble = TaskKey[Unit]("stop-stubble", "Stops a running instance of the Stubble server")
 }

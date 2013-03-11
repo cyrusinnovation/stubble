@@ -7,12 +7,4 @@ object StartTestServers {
     val server = new StubServer(8082)
     server.start()
   }
-  def start() {
-    val server = new StubServer(8082)
-    server.start()
-  }
-
-  def stop() {
-
-  }
 }
