@@ -22,6 +22,7 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/scala_2.9.2/sbt_0.12/net.virtual-void/sbt-dependency-graph/jars/sbt-dependency-graph-0.7.0.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/incremental-compiler-0.12.2.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/actions-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/com.github.siasia/plugin-commons_2.9.2/jars/plugin-commons_2.9.2-0.12.0-0.1.1.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/ivy-0.12.2.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/commons-httpclient-3.1.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/xsbti/interface-0.12.2.jar!/" />
@@ -30,6 +31,7 @@
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/testing-0.12.2.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/io-0.12.2.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/com.github.mdr/ascii-graphs_2.9.2/jars/ascii-graphs_2.9.2-0.0.2.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/com.github.siasia/xsbt-web-plugin_2.9.2/jars/xsbt-web-plugin_2.9.2-0.12.0-0.2.11.1.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/compile-0.12.2.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/logging-0.12.2.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/commons-logging-1.0.4.jar!/" />
@@ -106,6 +108,8 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/commons-io/commons-io/srcs/commons-io-2.0.1-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/scala_2.9.2/sbt_0.12/net.virtual-void/sbt-dependency-graph/srcs/sbt-dependency-graph-0.7.0-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/com.github.mdr/ascii-graphs_2.9.2/srcs/ascii-graphs_2.9.2-0.0.2-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/com.github.siasia/xsbt-web-plugin_2.9.2/srcs/xsbt-web-plugin_2.9.2-0.12.0-0.2.11.1-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/com.github.siasia/plugin-commons_2.9.2/srcs/plugin-commons_2.9.2-0.12.0-0.1.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>

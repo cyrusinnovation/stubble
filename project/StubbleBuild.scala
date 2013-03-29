@@ -1,3 +1,4 @@
+import com.github.siasia.{WebPlugin, Container, PluginKeys}
 import sbt._
 import Keys._
 import sbt.Tests.{Setup, Cleanup}
@@ -58,6 +59,16 @@ object StubbleBuild extends Build {
   //  lazy val specs = "org.scala-tools.testing" %% "specs" % "1.6.8" % "it,test"
   val startStubble = TaskKey[Unit]("start-stubble", "Starts an instance of the Stubble server")
   val stopStubble = TaskKey[Unit]("stop-stubble", "Stops a running instance of the Stubble server")
+
+
+  lazy val testServer = Project(id = "test-server",
+                          base = file("test-server"),
+                          settings = Project.defaultSettings)
+  .settings(com.github.siasia.WebPlugin.webSettings: _*)
+  .settings(libraryDependencies += "org.mortbay.jetty" % "jetty" % "6.1.22" % "container")
+  .settings(libraryDependencies ++= Dependencies.testServer)
+  .settings(PluginKeys.port in WebPlugin.container.Configuration := 8081)
+
 }
 
 
@@ -79,9 +90,15 @@ object Dependencies {
     val junitInterface = "com.novocode" % "junit-interface" % "0.8" % "test,it"
   }
 
+  object Provided {
+    val servletApi = "javax.servlet" % "javax.servlet-api" % "3.0.1"
+  }
+
   import Compile._
   import Test._
+  import Provided._
 
   lazy val allJunit = Seq(junit, junitInterface)
   lazy val core = Seq(finagleCore, finagleHttp, logback, jodaTime, slf4jApi, liftJson, junit, junitInterface)
+  lazy val testServer = Seq(servletApi, finagleCore, finagleHttp)
 }
