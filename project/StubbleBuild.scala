@@ -1,5 +1,6 @@
 import sbt._
 import Keys._
+import sbt.Tests.{Setup, Cleanup}
 
 object StubbleBuild extends Build {
   lazy val buildSettings = Seq(
@@ -39,6 +40,14 @@ object StubbleBuild extends Build {
       Run.run("com.cyrusinnovation.stubble.integrationtest.StopTestServers", cp.files, Seq(), ConsoleLogger())(runner)
     }
   })
+  .settings(testOptions in IntegrationTest += new Setup(loader => {
+    val clazz = loader.loadClass("com.cyrusinnovation.stubble.integrationtest.StartTestServers$")
+    clazz.getDeclaredMethod("startStubble").invoke(clazz.getField("MODULE$").get(clazz))
+  }))
+  .settings(testOptions in IntegrationTest += new Cleanup(loader => {
+    val clazz = loader.loadClass("com.cyrusinnovation.stubble.integrationtest.StopTestServers$")
+    clazz.getDeclaredMethod("stopStubble").invoke(clazz.getField("MODULE$").get(clazz))
+  }))
   //  .settings(testOptions in IntegrationTest += Tests.Setup(loader: ClassLoader => {
   //  val clazz = loader.loadClass("com.cyrusinnovation.stubble.server.StubServer")
   //  val constructor = clazz.getConstructor(classOf[Int])
