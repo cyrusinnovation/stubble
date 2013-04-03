@@ -28,7 +28,7 @@ class StubServerTest {
   @After
   def tearDown() {
     server.stop()
-    client.release()
+    client.close()
   }
 
   @Test

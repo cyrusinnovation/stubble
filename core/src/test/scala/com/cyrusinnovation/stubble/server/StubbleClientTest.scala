@@ -45,5 +45,6 @@ class StubbleClientTest {
   @Test
   def stopsRunningServer() {
     client.stopServer()
+    server.start()
   }
 }

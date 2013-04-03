@@ -11,7 +11,8 @@ object StubbleBuild extends Build {
     scalaVersion := "2.9.2",
     crossScalaVersions := Seq("2.9.2", "2.10.0"),
     resolvers ++= Seq("twttr" at "http://maven.twttr.com/"),
-    parallelExecution in Test := false
+    parallelExecution in Test := false,
+    scalacOptions += "-deprecation"
     //    dependencyOverrides ++= Dependencies.core
   )
   override lazy val settings = super.settings ++ buildSettings
@@ -74,15 +75,15 @@ object StubbleBuild extends Build {
 
 object Dependencies {
   val slf4jVersion = "1.6.1"
-  val finagleVersion = "5.1.0"
+  val finagleVersion = "6.2.1"
 
   object Compile {
     val jodaTime = "joda-time" % "joda-time" % "1.6.2"
     val logback = "ch.qos.logback" % "logback-classic" % "0.9.25"
     val slf4jApi = "org.slf4j" % "slf4j-api" % slf4jVersion
-    val liftJson = "net.liftweb" % "lift-json_2.9.1" % "2.4"
-    val finagleCore = "com.twitter" % "finagle-core" % finagleVersion
-    val finagleHttp = "com.twitter" % "finagle-http" % finagleVersion
+    val liftJson = "net.liftweb" %% "lift-json" % "2.5-RC2"
+    val finagleCore = "com.twitter" %% "finagle-core" % finagleVersion
+    val finagleHttp = "com.twitter" %% "finagle-http" % finagleVersion
   }
 
   object Test {

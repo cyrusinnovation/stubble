@@ -1,53 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="EntryPointsManager">
-    <entry_points version="2.0"></entry_points>
+    <entry_points version="2.0" />
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file://$PROJECT_DIR$/test-server"></file>
+    <file type="web" url="file://$PROJECT_DIR$/test-server" />
   </component>
-  <component name="IdProvider" IDEtalkID="88AE2D17741B24049A2C8E30D702E7B4"></component>
+  <component name="IdProvider" IDEtalkID="88AE2D17741B24049A2C8E30D702E7B4" />
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY"></option>
-    <option name="OPTION_SCOPE" value="protected"></option>
-    <option name="OPTION_HIERARCHY" value="true"></option>
-    <option name="OPTION_NAVIGATOR" value="true"></option>
-    <option name="OPTION_INDEX" value="true"></option>
-    <option name="OPTION_SEPARATE_INDEX" value="true"></option>
-    <option name="OPTION_DOCUMENT_TAG_USE" value="false"></option>
-    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="false"></option>
-    <option name="OPTION_DOCUMENT_TAG_VERSION" value="false"></option>
-    <option name="OPTION_DOCUMENT_TAG_DEPRECATED" value="true"></option>
-    <option name="OPTION_DEPRECATED_LIST" value="true"></option>
-    <option name="OTHER_OPTIONS" value=""></option>
-    <option name="HEAP_SIZE"></option>
-    <option name="LOCALE"></option>
-    <option name="OPEN_IN_BROWSER" value="true"></option>
+    <option name="OUTPUT_DIRECTORY" />
+    <option value="protected" name="OPTION_SCOPE" />
+    <option value="true" name="OPTION_HIERARCHY" />
+    <option value="true" name="OPTION_NAVIGATOR" />
+    <option value="true" name="OPTION_INDEX" />
+    <option value="true" name="OPTION_SEPARATE_INDEX" />
+    <option value="false" name="OPTION_DOCUMENT_TAG_USE" />
+    <option value="false" name="OPTION_DOCUMENT_TAG_AUTHOR" />
+    <option value="false" name="OPTION_DOCUMENT_TAG_VERSION" />
+    <option value="true" name="OPTION_DOCUMENT_TAG_DEPRECATED" />
+    <option value="true" name="OPTION_DEPRECATED_LIST" />
+    <option value="" name="OTHER_OPTIONS" />
+    <option name="HEAP_SIZE" />
+    <option name="LOCALE" />
+    <option value="true" name="OPEN_IN_BROWSER" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml"></option>
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/integration-test/pom.xml"></option>
-        <option value="$PROJECT_DIR$/start-stubble-plugin/pom.xml"></option>
-        <option value="$PROJECT_DIR$/stop-stubble-plugin/pom.xml"></option>
-        <option value="$PROJECT_DIR$/test-server/pom.xml"></option>
+        <option value="$PROJECT_DIR$/integration-test/pom.xml" />
+        <option value="$PROJECT_DIR$/start-stubble-plugin/pom.xml" />
+        <option value="$PROJECT_DIR$/stop-stubble-plugin/pom.xml" />
+        <option value="$PROJECT_DIR$/test-server/pom.xml" />
       </set>
     </option>
   </component>
   <component name="ModuleEditorState">
-    <option name="LAST_EDITED_MODULE_NAME"></option>
-    <option name="LAST_EDITED_TAB_NAME"></option>
+    <option name="LAST_EDITED_MODULE_NAME" />
+    <option name="LAST_EDITED_TAB_NAME" />
   </component>
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component 
-  name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/out"></output>
-</component>
-  <component name="WebServicesPlugin" addRequiredLibraries="true"></component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component addRequiredLibraries="true" name="WebServicesPlugin" />
 </project>
+

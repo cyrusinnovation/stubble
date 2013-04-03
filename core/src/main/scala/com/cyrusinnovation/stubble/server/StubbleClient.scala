@@ -39,6 +39,6 @@ class StubbleClient(port: Int) extends StubServerControl {
   }
 
   def release() {
-    client.release()
+    client.close()
   }
 }
