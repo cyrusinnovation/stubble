@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: com.twitter:util-logging:5.2.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.twitter/util-logging/jars/util-logging-5.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.twitter/util-logging/srcs/util-logging-5.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
