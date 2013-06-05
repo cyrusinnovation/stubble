@@ -1,28 +1,67 @@
-import com.github.siasia.{WebPlugin, Container, PluginKeys}
+import com.github.siasia.{WebPlugin, PluginKeys}
 import sbt._
 import Keys._
 import sbt.Tests.{Setup, Cleanup}
+import com.typesafe.sbt.SbtPgp
+import com.typesafe.sbt.pgp.PgpKeys._
 
 object StubbleBuild extends Build {
   lazy val buildSettings = Seq(
     organization := "com.cyrusinnovation",
-    name := "stubble",
+    name := "Stubble",
     version := "0.0.3-SNAPSHOT",
     scalaVersion := "2.9.2",
     crossScalaVersions := Seq("2.9.2", "2.10.0"),
     resolvers ++= Seq("twttr" at "http://maven.twttr.com/"),
     parallelExecution in Test := false,
-    scalacOptions += "-deprecation"
-    //    dependencyOverrides ++= Dependencies.core
+    scalacOptions += "-deprecation",
+    publishMavenStyle := true,
+    publishTo <<= version {
+                            (v: String) =>
+                              val nexus = "https://oss.sonatype.org/"
+                              if (v.trim.endsWith("SNAPSHOT"))
+                                Some("snapshots" at nexus + "content/repositories/snapshots")
+                              else
+                                Some("releases" at nexus + "service/local/staging/deploy/maven2")
+                          },
+    publishArtifact in Test := false,
+    publishArtifact in IntegrationTest := false,
+//    SbtPgp.usePgpKeyHex("4C046D059F897ED9"),
+    pomIncludeRepository := {
+      _ => false
+    },
+    licenses := Seq("The MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
+    homepage := Some(url("https://www.github.com/cyrusinnovation/stubble")),
+    pomExtra := (
+      <name>Stubble</name>
+        <organization>
+          <name>Cyrus Innovation</name>
+          <url>http://www.cyrusinnovation.com/</url>
+        </organization>
+        <scm>
+          <url>https://github.com/cyrusinnovation/stubble</url>
+          <connection>scm:git:git@github.com:cyrusinnovation/stubble.git</connection>
+          <developerConnection>scm:git:git@github.com:cyrusinnovation/stubble.git</developerConnection>
+          <tag>HEAD</tag>
+        </scm>
+        <developers>
+          <developer>
+            <id>ostewart</id>
+            <name>Oliver Stewart</name>
+            <email>ostewart@cyrusinnovation.com</email>
+            <organization>Cyrus Innovation</organization>
+            <organizationUrl>http://www.cyrusinnovation.com/</organizationUrl>
+            <timezone>America/New_York</timezone>
+          </developer>
+        </developers>
+      )
+
   )
   override lazy val settings = super.settings ++ buildSettings
 
   lazy val root = Project(id = "stubble",
                           base = file("."),
                           settings = Project.defaultSettings)
-    //    .configs(IntegrationTest)
-    //    .settings(libraryDependencies ++= Dependencies.allJunit)
-    //    .settings(Defaults.itSettings: _*)
     .aggregate(core)
   lazy val core = Project(id = "core",
                           base = file("core"),
@@ -42,33 +81,26 @@ object StubbleBuild extends Build {
       Run.run("com.cyrusinnovation.stubble.integrationtest.StopTestServers", cp.files, Seq(), ConsoleLogger())(runner)
     }
   })
-  .settings(testOptions in IntegrationTest += new Setup(loader => {
+    .settings(testOptions in IntegrationTest += new Setup(loader => {
     val clazz = loader.loadClass("com.cyrusinnovation.stubble.integrationtest.StartTestServers$")
     clazz.getDeclaredMethod("startStubble").invoke(clazz.getField("MODULE$").get(clazz))
   }))
-  .settings(testOptions in IntegrationTest += new Cleanup(loader => {
+    .settings(testOptions in IntegrationTest += new Cleanup(loader => {
     val clazz = loader.loadClass("com.cyrusinnovation.stubble.integrationtest.StopTestServers$")
     clazz.getDeclaredMethod("stopStubble").invoke(clazz.getField("MODULE$").get(clazz))
   }))
-  //  .settings(testOptions in IntegrationTest += Tests.Setup(loader: ClassLoader => {
-  //  val clazz = loader.loadClass("com.cyrusinnovation.stubble.server.StubServer")
-  //  val constructor = clazz.getConstructor(classOf[Int])
-  //  val server: StubServer = constructor.newInstance(8082)
-  //  server.start()
-  //  }))
 
-  //  lazy val specs = "org.scala-tools.testing" %% "specs" % "1.6.8" % "it,test"
   val startStubble = TaskKey[Unit]("start-stubble", "Starts an instance of the Stubble server")
   val stopStubble = TaskKey[Unit]("stop-stubble", "Stops a running instance of the Stubble server")
 
 
   lazy val testServer = Project(id = "test-server",
-                          base = file("test-server"),
-                          settings = Project.defaultSettings)
-  .settings(com.github.siasia.WebPlugin.webSettings: _*)
-  .settings(libraryDependencies += "org.mortbay.jetty" % "jetty" % "6.1.22" % "container")
-  .settings(libraryDependencies ++= Dependencies.testServer)
-  .settings(PluginKeys.port in WebPlugin.container.Configuration := 8081)
+                                base = file("test-server"),
+                                settings = Project.defaultSettings)
+    .settings(com.github.siasia.WebPlugin.webSettings: _*)
+    .settings(libraryDependencies += "org.mortbay.jetty" % "jetty" % "6.1.22" % "container")
+    .settings(libraryDependencies ++= Dependencies.testServer)
+    .settings(PluginKeys.port in WebPlugin.container.Configuration := 8081)
 
 }
 
