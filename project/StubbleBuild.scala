@@ -16,6 +16,8 @@ object StubbleBuild extends Build {
     parallelExecution in Test := false,
     scalacOptions += "-deprecation",
     publishMavenStyle := true,
+    organizationName := "Cyrus Innovation",
+    organizationHomepage := Some(url("http://www.cyrusinnovation.com/")),
     publishTo <<= version {
                             (v: String) =>
                               val nexus = "https://oss.sonatype.org/"
@@ -33,11 +35,6 @@ object StubbleBuild extends Build {
     licenses := Seq("The MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
     homepage := Some(url("https://www.github.com/cyrusinnovation/stubble")),
     pomExtra := (
-      <name>Stubble</name>
-        <organization>
-          <name>Cyrus Innovation</name>
-          <url>http://www.cyrusinnovation.com/</url>
-        </organization>
         <scm>
           <url>https://github.com/cyrusinnovation/stubble</url>
           <connection>scm:git:git@github.com:cyrusinnovation/stubble.git</connection>
