@@ -14,7 +14,8 @@ class TestServlet extends HttpServlet {
     .build()
 
   override def doGet(request: HttpServletRequest, response: HttpServletResponse) {
-    val backendResponse = client(new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/")).get()
-    response.getWriter.println(backendResponse.getContent.toString(UTF_8))
+    val backendResponse = client(new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/"))
+    backendResponse onFailure (e => println("TEST SERVER: back end request failed: " + e.getMessage))
+    response.getWriter.println(backendResponse.get().getContent.toString(UTF_8))
   }
 }

@@ -9,7 +9,7 @@ object StubbleBuild extends Build {
   lazy val buildSettings = Seq(
     organization := "com.cyrusinnovation",
     name := "Stubble",
-    version := "0.0.3-SNAPSHOT",
+    version := "0.0.3",
     scalaVersion := "2.9.2",
     crossScalaVersions := Seq("2.9.2", "2.10.0"),
     resolvers ++= Seq("twttr" at "http://maven.twttr.com/"),
@@ -63,7 +63,7 @@ object StubbleBuild extends Build {
                           base = file("."),
                           settings = Project.defaultSettings)
     .aggregate(core)
-  lazy val core = Project(id = "core",
+  lazy val core = Project(id = "stubble-core",
                           base = file("core"),
                           settings = Project.defaultSettings ++ Seq(
                             libraryDependencies ++= Dependencies.core

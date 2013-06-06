@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea_modules/core.iml" filepath="$PROJECT_DIR$/.idea_modules/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea_modules/stubble.iml" filepath="$PROJECT_DIR$/.idea_modules/stubble.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea_modules/stubble-build.iml" filepath="$PROJECT_DIR$/.idea_modules/stubble-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/stubble-core.iml" filepath="$PROJECT_DIR$/.idea_modules/stubble-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea_modules/test-server.iml" filepath="$PROJECT_DIR$/.idea_modules/test-server.iml" />
     </modules>
   </component>

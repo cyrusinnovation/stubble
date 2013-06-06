@@ -37,6 +37,7 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="core" />
+        <module name="test-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
