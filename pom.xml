@@ -7,7 +7,7 @@
     <version>7</version>
   </parent>
   <groupId>com.cyrusinnovation</groupId>
-  <artifactId>stubble-maven_2.9.2</artifactId>
+  <artifactId>stubble-maven_${scala.artifact.version}</artifactId>
   <version>0.0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
@@ -16,7 +16,6 @@
     <module>test-server</module>
     <module>integration-test</module>
   </modules>
-  <name>Stubble</name>
   <url>https://www.github.com/cyrusinnovation/stubble</url>
   <organization>
     <name>Cyrus Innovation</name>
@@ -50,7 +49,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <scala.version>2.9.2</scala.version>
-    <scala.artifact.version>2.9.2</scala.artifact.version>
+    <scala.artifact.version>${scala.version}</scala.artifact.version>
   </properties>
 
   <repositories>
