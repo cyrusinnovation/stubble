@@ -7,11 +7,10 @@
     <version>7</version>
   </parent>
   <groupId>com.cyrusinnovation</groupId>
-  <artifactId>stubble</artifactId>
-  <packaging>pom</packaging>
+  <artifactId>stubble-maven_2.9.2</artifactId>
   <version>0.0.3-SNAPSHOT</version>
+  <packaging>pom</packaging>
   <modules>
-    <module>core</module>
     <module>start-stubble-plugin</module>
     <module>stop-stubble-plugin</module>
     <module>test-server</module>
@@ -51,6 +50,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <scala.version>2.9.2</scala.version>
+    <scala.artifact.version>2.9.2</scala.artifact.version>
   </properties>
 
   <repositories>
@@ -178,18 +178,18 @@
       </dependency>
       <dependency>
         <groupId>com.twitter</groupId>
-        <artifactId>finagle-core</artifactId>
-        <version>5.1.0</version>
+        <artifactId>finagle-core_${scala.artifact.version}</artifactId>
+        <version>6.2.1</version>
       </dependency>
       <dependency>
         <groupId>com.twitter</groupId>
-        <artifactId>finagle-http</artifactId>
-        <version>5.1.0</version>
+        <artifactId>finagle-http_${scala.artifact.version}</artifactId>
+        <version>6.2.1</version>
       </dependency>
       <dependency>
         <groupId>net.liftweb</groupId>
-        <artifactId>lift-json_2.9.1</artifactId>
-        <version>2.4</version>
+        <artifactId>lift-json_${scala.artifact.version}</artifactId>
+        <version>2.5-RC2</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

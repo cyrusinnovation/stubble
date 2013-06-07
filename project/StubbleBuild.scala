@@ -58,7 +58,7 @@ object StubbleBuild extends Build {
 
   lazy val root = Project(id = "stubble",
                           base = file("."),
-                          settings = Project.defaultSettings)
+                          settings = Project.defaultSettings ++ Seq(publish := false))
     .aggregate(core)
   lazy val core = Project(id = "stubble-core",
                           base = file("core"),

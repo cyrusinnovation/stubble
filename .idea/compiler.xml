@@ -11,7 +11,7 @@
       <directory url="file://$PROJECT_DIR$/stop-stubble-plugin/target/generated-test-sources/test-annotations" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/core/target/generated-sources/annotations" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/core/target/generated-test-sources/test-annotations" includeSubdirectories="true" />
-      <directory url="file://$PROJECT_DIR$/start-stubble-plugin/target/generated-sources/annotations" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/start-stubble-maven-plugin/target/generated-sources/annotations" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/start-stubble-plugin/target/generated-test-sources/test-annotations" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
@@ -37,6 +37,7 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="core" />
+        <module name="stubble-maven-plugin_2.9.2" />
         <module name="test-server" />
       </profile>
     </annotationProcessing>
@@ -47,6 +48,7 @@
       <module name="start-stubble-plugin" target="1.6" />
       <module name="stop-stubble-plugin" target="1.6" />
       <module name="stubble" target="1.6" />
+      <module name="stubble-maven-plugin_2.9.2" target="1.6" />
       <module name="test-server" target="1.6" />
     </bytecodeTargetLevel>
   </component>

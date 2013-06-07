@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>stubble</artifactId>
     <groupId>com.cyrusinnovation</groupId>
+    <artifactId>stubble-maven_2.9.2</artifactId>
     <version>0.0.3-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>test-server</artifactId>
+  <artifactId>test-server_${scala.artifact.version}</artifactId>
   <packaging>war</packaging>
 
   <dependencies>
@@ -23,11 +23,11 @@
     </dependency>
     <dependency>
       <groupId>com.twitter</groupId>
-      <artifactId>finagle-core</artifactId>
+      <artifactId>finagle-core_${scala.artifact.version}</artifactId>
     </dependency>
     <dependency>
       <groupId>com.twitter</groupId>
-      <artifactId>finagle-http</artifactId>
+      <artifactId>finagle-http_${scala.artifact.version}</artifactId>
     </dependency>
   </dependencies>
 
