@@ -7,7 +7,7 @@
     <version>7</version>
   </parent>
   <groupId>com.cyrusinnovation</groupId>
-  <artifactId>stubble-maven_2.10</artifactId>
+  <artifactId>stubble-maven_2.9.2</artifactId>
   <version>0.0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
@@ -48,8 +48,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <scala.version>2.10.0</scala.version>
-    <scala.artifact.version>2.10</scala.artifact.version>
+    <scala.version>2.9.2</scala.version>
+    <scala.artifact.version>2.9.2</scala.artifact.version>
   </properties>
 
   <repositories>
