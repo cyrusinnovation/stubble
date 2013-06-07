@@ -8,7 +8,7 @@
   </parent>
   <groupId>com.cyrusinnovation</groupId>
   <artifactId>stubble-maven_2.9.2</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.3</version>
   <packaging>pom</packaging>
   <modules>
     <module>start-stubble-plugin</module>
@@ -32,7 +32,7 @@
     <url>https://github.com/cyrusinnovation/stubble</url>
     <connection>scm:git:git@github.com:cyrusinnovation/stubble.git</connection>
     <developerConnection>scm:git:git@github.com:cyrusinnovation/stubble.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>stubble-maven_2.9.2-0.0.3</tag>
   </scm>
 
   <developers>
